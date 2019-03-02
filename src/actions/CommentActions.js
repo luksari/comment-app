@@ -1,5 +1,12 @@
-import {ADD_COMMENT, REMOVE_COMMENT, EDIT_COMMENT, THUMB_UP, THUMB_DOWN} from './actions';
+import * as actions from './actions';
 
+const {
+    ADD_COMMENT,
+    REMOVE_COMMENT,
+    EDIT_COMMENT,
+    THUMB_DOWN,
+    THUMB_DOWN
+} = actions;
 
 export const addComment = content => ({
     type: ADD_COMMENT,

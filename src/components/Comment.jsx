@@ -1,12 +1,12 @@
-import React, {Component}  from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
 import * as actions from '../actions/actions';
 import { thumbUp, thumbDown, editComment, removeComment } from '../actions/CommentActions';
 
-import {CommentForm} from './CommentForm';
+import { CommentForm } from './CommentForm';
 
 
 const CommentContainer = styled.div`
@@ -40,7 +40,7 @@ const Button = styled.button`
 `
 
 class CommentRaw extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isEditted: false,
@@ -48,38 +48,40 @@ class CommentRaw extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(event){
-        switch(event.target.dataset.action) {
-            case actions.THUMB_UP: this.props.thumbUp(this.props.id); break;
-            case actions.THUMB_DOWN: this.props.thumbDown(this.props.id); break;
-            case actions.EDIT_COMMENT: this.editCommentHandler(this.props.id); break;
-            case actions.REMOVE_COMMENT: this.props.removeComment(this.props.id); break;
+    handleClick(event) {
+        const { THUMB_UP, THUMB_DOWN, EDIT_COMMENT, REMOVE_COMMENT } = actions;
+        const { id, thumbUp, thumbDown, editCommentHandler, removeComment } = this.props
+        switch (event.target.dataset.action) {
+            case THUMB_UP: thumbUp(id); break;
+            case THUMB_DOWN: thumbDown(id); break;
+            case EDIT_COMMENT: this.editCommentHandler(id); break;
+            case REMOVE_COMMENT: removeComment(id); break;
             default: break;
         }
     }
 
-    editCommentHandler(id){
+    editCommentHandler(id) {
+        const { editComment } = this.props
         this.setState(({ isEditted }) => {
             this.isEditted = !isEditted
         })
-        this.props.editComment(id);
+        editComment(id);
     }
-    
+
 
     render() {
-        const {content, votes} = this.props
-      return (
-        <CommentContainer>
-            {this.state.isEditted ? <CommentForm/> : (<TextLabel>{content}</TextLabel>) }
-            <VotesLabel>Votes: {votes}</VotesLabel>
-            <div>
-                <Button onClick={this.handleClick} data-action={actions.THUMB_UP}>+</Button>
-                <Button onClick={this.handleClick} data-action={actions.THUMB_DOWN}>-</Button>
-                <Button onClick={this.handleClick} data-action={actions.REMOVE_COMMENT}>X</Button>
-                <Button onClick={this.handleClick} data-action={actions.EDIT_COMMENT}>Edit</Button>
-            </div>
-        </CommentContainer>
-      )
+        const { content, votes } = this.props
+        const { THUMB_UP, THUMB_DOWN, REMOVE_COMMENT, EDIT_COMMENT } = actions;
+        return (
+            <CommentContainer>
+                {this.state.isEditted ? <CommentForm /> : (<TextLabel>{content}</TextLabel>)}
+                <VotesLabel>Votes: {votes}</VotesLabel>
+                <div className>
+                    <Button onClick={this.handleClick} data-action={REMOVE_COMMENT}>X</Button>
+                    <Button onClick={this.handleClick} data-action={EDIT_COMMENT}>Edit</Button>
+                </div>
+            </CommentContainer>
+        )
     }
 }
 
