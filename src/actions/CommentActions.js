@@ -4,7 +4,7 @@ const {
     ADD_COMMENT,
     REMOVE_COMMENT,
     EDIT_COMMENT,
-    THUMB_DOWN,
+    THUMB_UP,
     THUMB_DOWN
 } = actions;
 
