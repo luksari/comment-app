@@ -31,6 +31,10 @@ const CommentContainer = styled.div`
 const VotesLabel = styled.p`
     width: 100%;
     font-weight: bold;
+    font-size: ${({ votes }) => {
+        const max = 2;
+        return Math.log(votes + max) < max ? Math.log(votes + max) : max;
+    }}em;
     color: palevioletred;
     text-align: center;
 `
@@ -72,6 +76,7 @@ const Button = styled.button`
     }
 `
 const FunctionalitiesContainer = styled.div`
+    position: relative;
     height: 100%;
     min-width: 100px;
     display: flex;
@@ -125,7 +130,7 @@ class CommentRaw extends Component {
             <CommentContainer>
                 <FunctionalitiesContainer>
                     <Button onClick={this.handleClick} data-action={THUMB_UP}>+</Button>
-                    <VotesLabel>Votes: {votes}</VotesLabel>
+                    <VotesLabel votes={votes}>{votes}</VotesLabel>
                     <Button onClick={this.handleClick} data-action={THUMB_DOWN}>-</Button>
                 </FunctionalitiesContainer >
                 {this.state.isEditted ? <CommentForm /> : (<TextLabel>{content}</TextLabel>)}
