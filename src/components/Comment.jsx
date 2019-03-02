@@ -40,8 +40,8 @@ const VotesLabel = styled.p`
 `
 const TextLabel = styled.p`
     color: #000;
-    padding: 5px;
-    border-bottom: 1px solid #999;
+    width: 100%;
+    padding: 10px;
 `
 const Button = styled.button`
     position: relative;
@@ -62,6 +62,7 @@ const Button = styled.button`
         content: '${(props) => setContent(props['data-action'])}';
         color: #fff;
         position: absolute;
+        border-radius: 10px;
         top: 0;
         left: 0;
         z-index: 0;
@@ -90,6 +91,7 @@ const FunctionalitiesContainer = styled.div`
         css`
             flex-direction: row;
             border-right: none;
+            align-items: flex-start;
         `};
 `
 
