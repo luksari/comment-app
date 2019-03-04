@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
-import propTypes from 'prop-types';
 
-import * as actions from '../actions/actions';
+import { THUMB_UP, THUMB_DOWN, EDIT_COMMENT, REMOVE_COMMENT } from '../actions/actions';
 import { thumbUp, thumbDown, editComment, removeComment } from '../actions/CommentActions';
 
 import { CommentForm } from './CommentForm';
 
 function setContent(action) {
-    const { THUMB_UP, THUMB_DOWN, EDIT_COMMENT, REMOVE_COMMENT } = actions;
     switch (action) {
         case THUMB_UP: return '+';
         case THUMB_DOWN: return '-';
@@ -25,9 +23,13 @@ const CommentContainer = styled.div`
     border-radius: 10px;
     color: #2b2b2b;
     display: flex;
+    flex-wrap:nowrap;
     margin: 10px;
-    max-width: 650px;
+    width: 100%;
+    max-width: 750px;
+    padding: 10px 0;
 `
+
 const VotesLabel = styled.p`
     width: 100%;
     font-weight: bold;
@@ -41,7 +43,9 @@ const VotesLabel = styled.p`
 const TextLabel = styled.p`
     color: #000;
     width: 100%;
+    word-wrap: break-word;
     padding: 10px;
+    margin: 0 0 0 15px;
 `
 const Button = styled.button`
     position: relative;
@@ -66,7 +70,7 @@ const Button = styled.button`
         top: 0;
         left: 0;
         z-index: 0;
-            padding: 5px;
+        padding: 5px;
         width: 100%;
         height: 100%;
         opacity: 0;
@@ -79,7 +83,8 @@ const Button = styled.button`
 const FunctionalitiesContainer = styled.div`
     position: relative;
     height: 100%;
-    min-width: 100px;
+    width: 20%;
+    max-width: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -101,11 +106,9 @@ class CommentRaw extends Component {
         this.state = {
             isEditted: false,
         };
-        this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(event) {
-        const { THUMB_UP, THUMB_DOWN, EDIT_COMMENT, REMOVE_COMMENT } = actions;
+    handleClick = (event) => {
         const { id, thumbUp, thumbDown, removeComment } = this.props
         switch (event.target.dataset.action) {
             case THUMB_UP: thumbUp(id); break;
@@ -127,14 +130,13 @@ class CommentRaw extends Component {
 
     render() {
         const { content, votes } = this.props
-        const { THUMB_UP, THUMB_DOWN, REMOVE_COMMENT, EDIT_COMMENT } = actions;
         return (
             <CommentContainer>
                 <FunctionalitiesContainer>
                     <Button onClick={this.handleClick} data-action={THUMB_UP}>+</Button>
                     <VotesLabel votes={votes}>{votes}</VotesLabel>
                     <Button onClick={this.handleClick} data-action={THUMB_DOWN}>-</Button>
-                </FunctionalitiesContainer >
+                </FunctionalitiesContainer>
                 {this.state.isEditted ? <CommentForm /> : (<TextLabel>{content}</TextLabel>)}
                 <FunctionalitiesContainer horizontal>
                     <Button onClick={this.handleClick} data-action={EDIT_COMMENT}>Edit</Button>
